@@ -53,4 +53,6 @@ var observable = functon(el){
         });
     }
 
+    return el;
+
 }
