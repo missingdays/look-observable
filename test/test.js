@@ -54,6 +54,21 @@ describe("observable", function(){
         expect(count).to.be(4);
     });
 
+    it("should pass arguments on", function(){
+        el.on("pizza", function(pizza){
+            expect(pizza).to.be(3);
+        });
+        el.on("salad", function(tomato, cheese, meat){
+            expect(tomato).to.be(1);
+            expect(cheese).to.be(2);
+            expect(meat).to.be(3);
+        });
+
+        el.trigger("pizza", 3);
+
+        el.trigger("salad", 1, 2, 3);
+    });
+
     it("should hadle recursive on", function(){
         el.on("test", function(){
             count++;
@@ -86,9 +101,20 @@ describe("observable", function(){
     });
 
     it("should handle multi one with multi calls", function(){
-        el.one("test", handler);
-        el.one("test", handler);
-        el.one("test", handler);
+        function handler1(){
+            count++;
+        }
+
+        function handler2(){
+            count++;
+        }
+
+        function handler3(){
+            count++;
+        }
+        el.one("test", handler1);
+        el.one("test", handler2);
+        el.one("test", handler3);
 
         el.trigger("test");
         el.trigger("test");
@@ -111,6 +137,22 @@ describe("observable", function(){
 
         expect(count).to.be(2);
     });
+
+    it("should pass arguments one", function(){
+        el.one("pizza", function(pizza){
+            expect(pizza).to.be(3);
+        });
+        el.one("salad", function(tomato, cheese, meat){
+            expect(tomato).to.be(1);
+            expect(cheese).to.be(2);
+            expect(meat).to.be(3);
+        });
+
+        el.trigger("pizza", 3);
+
+        el.trigger("salad", 1, 2, 3);
+    });
+
 
     it("should handle off", function(){
         el.on("test", handler);
@@ -138,12 +180,21 @@ describe("observable", function(){
         function two(){
             count++;
         }
+        function oneMod(){
+            count++;
+        }
 
         el.on("one", one);
+        el.on("one", oneMod);
         el.on("two", two);
 
         el.off("one", one);
         el.off("two", two);
+
+        el.trigger("one");
+        el.trigger("two");
+
+        expect(count).to.be(1);
     });
 
 });

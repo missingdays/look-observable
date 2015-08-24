@@ -5,29 +5,43 @@ var observable = function(el){
 
     el = el || {};
 
+    function fire(name, args){
+        var callbacksNamed = callbacks[name];
+
+        if(callbacksNamed){
+            callbacksNamed.forEach(function(callback){
+                if(callback){
+                    callback.apply(el, args);
+                }
+
+                if(callback._isSingle){
+                    el.off(name, callback);
+                }
+            });
+        }
+    }
+
     el.on = function(names, fn){
         var names_splt = names.split(" ");
 
+        fn._id = id++;
+
         names_splt.forEach(function(name){
+
             if(!callbacks[name]){
                 callbacks[name] = [];
             }
 
-            fn._id = id++;
             callbacks[name].push(fn);
-
         });
 
         return el;
     };
 
     el.one = function(name, fn){
-        function on(){
-            el.off(name);
-            fn.apply(el);
-        }
+        fn._isSingle = true;
 
-        return el.on(name, on); 
+        return el.on(name, fn); 
     }
 
     el.off = function(names, fn){
@@ -35,10 +49,13 @@ var observable = function(el){
 
         names_splt.forEach(function(name){
             if(fn){
-                for(var i = 0; i < callbacks.length; i++){
-                    var callback = callbacks[i];
+                var i = 0;
+                while(i < callbacks[name].length){
+                    var callback = callbacks[name][i];
                     if(callback._id === fn._id){
-                        callbacks.splice(i, 1);
+                        callbacks[name].splice(i, 1);
+                    } else {
+                        i++;
                     }
                 }
             } else {
@@ -50,16 +67,12 @@ var observable = function(el){
     }
 
     el.trigger = function(names){
-        var args = [].splice.call(arguments, 0);
+        var args = [].splice.call(arguments, 1);
 
         var names_splt = names.split(" ");
 
         names_splt.forEach(function(name){
-            if(callbacks[name]){
-                callbacks[name].forEach(function(callback){
-                    callback.apply(el, args.splice(1, args.length));
-                });
-            }
+            fire(name, args);
         });
 
         return el;
@@ -68,4 +81,10 @@ var observable = function(el){
     return el;
 }
 
-module.exports.observable = observable;
+if(module && module.exports){
+    module.exports.observable = observable;
+} else if(define && define.amd){
+    define("look-observable", observable);
+} else {
+    window.observable = observable;
+}
