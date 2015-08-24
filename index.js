@@ -82,10 +82,12 @@
         return el;
     }
 
-    if(module && module.exports){
+    if('undefined' !== typeof module && 'undefined' !== typeof exports){
         module.exports.observable = observable;
-    } else if(define && define.amd){
-        define("look-observable", observable);
+    } else if('undefined' !== typeof define && 'undefined' !== typeof define.amd){
+        define("look-observable", {
+            observable: observable
+        });
     } else {
         window.observable = observable;
     }

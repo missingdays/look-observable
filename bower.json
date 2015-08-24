@@ -1,7 +1,7 @@
 {
   "name": "look-observable",
   "main": "index.js",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/missingdays/look",
   "authors": [
     "Evgeny Bovykin <missingdays@etersoft.ru>"
