@@ -197,4 +197,15 @@ describe("observable", function(){
         expect(count).to.be(1);
     });
 
+    it("should handle triggering empty queue", function(){
+        el.trigger("one");
+        el.trigger("two");
+
+        el.on("one", handler);
+
+        el.trigger("one");
+
+        expect(count).to.be(1);
+    });
+
 });
