@@ -1,0 +1,27 @@
+{
+  "name": "look-observable",
+  "main": "index.js",
+  "version": "1.0.1",
+  "homepage": "https://github.com/missingdays/look",
+  "authors": [
+    "Evgeny Bovykin <missingdays@etersoft.ru>"
+  ],
+  "description": "Simple observable",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "js",
+    "observable"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
