@@ -1,6 +1,6 @@
 {
   "name": "look-observable",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Simple observable",
   "main": "index.js",
   "scripts": {
