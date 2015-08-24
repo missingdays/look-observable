@@ -1,0 +1,26 @@
+{
+  "name": "look",
+  "version": "0.0.1",
+  "description": "Simple observable",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/missingdays/look"
+  },
+  "keywords": [
+    "js",
+    "observable"
+  ],
+  "author": "missingdays",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/missingdays/look/issues"
+  },
+  "homepage": "https://github.com/missingdays/look",
+  "dependencies": {
+    "mocha": "^2.2.5"
+  }
+}
