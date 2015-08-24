@@ -1,7 +1,9 @@
-var observable = functon(el){
+var observable = function(el){
 
     var callbacks = {};
     var id = 0;
+
+    el = el || {};
 
     el.on = function(names, fn){
         var names_splt = names.split(" ");
@@ -15,15 +17,17 @@ var observable = functon(el){
             callbacks[name].push(fn);
 
         });
+
+        return el;
     };
 
     el.one = function(name, fn){
         function on(){
-            el.off(name, fn);
+            el.off(name);
             fn.apply(el);
         }
 
-       el.on(name, on); 
+        return el.on(name, on); 
     }
 
     el.off = function(names, fn){
@@ -41,18 +45,27 @@ var observable = functon(el){
                 callbacks[name] = [];
             }
         });
+
+        return el;
     }
 
     el.trigger = function(names){
+        var args = [].splice.call(arguments, 0);
+
         var names_splt = names.split(" ");
 
         names_splt.forEach(function(name){
-            if(typeof callbacks[name] === 'function'){
-                callbacks[name].apply(el, arguments.splice(1, aruments.length));
+            if(callbacks[name]){
+                callbacks[name].forEach(function(callback){
+                    callback.apply(el, args.splice(1, args.length));
+                });
             }
         });
+
+        return el;
     }
 
     return el;
-
 }
+
+module.exports.observable = observable;

@@ -1,5 +1,5 @@
-var observable = require("../index.js");
-var expect = require("expect");
+var observable = require("../index.js").observable;
+var expect = require("expect.js");
 
 
 describe("observable", function(){
@@ -56,9 +56,9 @@ describe("observable", function(){
 
     it("should hadle recursive on", function(){
         el.on("test", function(){
-            counter++;
+            count++;
             el.on("test", function(){
-                counter++;
+                count++;
             });
         });
 
@@ -122,7 +122,7 @@ describe("observable", function(){
     });
 
     it("should handle multi off", function(){
-        el.on("test1", handler).off("test").on("test2 test3", hanlder).off("test2 test3");
+        el.on("test1", handler).off("test1").on("test2 test3", handler).off("test2 test3");
 
         el.trigger("test1");
         el.trigger("test2");
@@ -142,7 +142,7 @@ describe("observable", function(){
         el.on("one", one);
         el.on("two", two);
 
-        el.off("one" one);
+        el.off("one", one);
         el.off("two", two);
     });
 
