@@ -11,8 +11,10 @@
 
             if(callbacksNamed){
                 callbacksNamed.forEach(function(callback){
-                    if(callback){
+                    if(callback && !callback._isBusy){
+                        callback._isBusy = true;
                         callback.apply(el, args);
+                        callback._isBusy = false;
                     }
 
                     if(callback._isSingle){
